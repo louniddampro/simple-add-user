@@ -1,12 +1,14 @@
-import Button from "../UI/Button";
-import styles from "./AddUser.module.css"
-import InputField from "../UI/InputField";
-import ErrorModal from "../UI/ErrorModal";
 import { useState } from "react";
+import Button from "../UI/Button";
+import ErrorModal from "../UI/ErrorModal";
+import InputField from "../UI/InputField";
+import styles from "./AddUser.module.css";
 
-const AddUser = () => {
+const AddUser = (props) => {
+
+	//props
+	const {onAddUser} = props
 	//states
-	const [usersList, setUsersList] = useState([])
 	const [modalContent, setModalContent] = useState("")
 	const [user, setUser] = useState({
 		name: "",
@@ -14,6 +16,7 @@ const AddUser = () => {
 	})
 	const [isValid, setIsvalid] = useState(true)
 
+	//Methods
 	const handleSubmitUser = () => {
 		if (user.name.trim().length === 0){
 			setModalContent("Enter a valid name")
@@ -31,9 +34,7 @@ const AddUser = () => {
 			return
 		}
 
-		setUsersList((prevState) => {
-			return [...prevState, user]
-		})
+		onAddUser(user.name, user.age)
 
 		setUser({
 			name: "",
@@ -66,8 +67,7 @@ const AddUser = () => {
 			{!isValid && <ErrorModal
 			title="Error"
 			content={modalContent}
-			toggleValid={setIsvalid} />}
-			
+			toggleValid={setIsvalid} />}			
 		</div>
 	)
 }
