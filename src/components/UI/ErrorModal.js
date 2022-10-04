@@ -1,7 +1,11 @@
 import styles from "./ErrorModal.module.css"
 import Button from "./Button"
+import ReactDOM  from "react-dom"
+import React from "react"
 
-const ErrorModal = ({title, content, toggleValid}) => {
+const ErrorModalContent = (props) => {
+
+	const {title, content, toggleValid} = props
 
 	return(
 		<div className={styles.backdrop}>
@@ -20,6 +24,18 @@ const ErrorModal = ({title, content, toggleValid}) => {
 				</div>
 			</div>
 		</div>
+	)
+}
+
+const ErrorModal = ({title, content, toggleValid}) => {
+
+	return(
+		<React.Fragment>
+			{ReactDOM.createPortal(
+			<ErrorModalContent content={content} title={title} toggleValid={(bool) => {toggleValid(bool)}}/>,
+			document.getElementById('modal')
+			)}
+		</React.Fragment>
 	)
 }
 export default ErrorModal
